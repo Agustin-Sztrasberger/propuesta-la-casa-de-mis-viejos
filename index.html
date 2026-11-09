@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Propuesta Shift · La casa de mis viejos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#1C1C1C; --card:#242424; --card2:#2a2a2a; --line:rgba(255,255,255,.08);
+    --accent:#7765E3; --accent-soft:rgba(119,101,227,.15); --text:#fff; --muted:rgba(255,255,255,.7);
+    --radius:.75rem;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--text);font-family:'Plus Jakarta Sans',system-ui,sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased}
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:1160px;margin:0 auto;padding:0 24px}
+  section{padding:110px 0;border-top:1px solid var(--line)}
+  .eyebrow{display:inline-block;font-size:.78rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:16px}
+  h1{font-size:clamp(2.4rem,6vw,4.6rem);line-height:1.05;font-weight:800;letter-spacing:-.03em}
+  h2{font-size:clamp(1.9rem,4vw,3rem);line-height:1.1;font-weight:700;letter-spacing:-.02em;margin-bottom:20px}
+  h3{font-size:1.2rem;font-weight:700;margin-bottom:10px}
+  p.lead{font-size:1.15rem;color:var(--muted);max-width:720px}
+  .accent{color:var(--accent)}
+
+  /* NAV */
+  nav{position:sticky;top:0;z-index:50;background:rgba(28,28,28,.85);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+  nav .wrap{display:flex;align-items:center;justify-content:space-between;height:68px}
+  nav svg{height:30px;width:auto}
+  .navlinks{display:flex;gap:28px;font-size:.9rem;color:var(--muted)}
+  .navlinks a{position:relative;transition:color .2s}
+  .navlinks a::after{content:"";position:absolute;left:0;bottom:-4px;width:0;height:2px;background:var(--accent);transition:width .25s ease}
+  .navlinks a:hover{color:#fff}
+  .navlinks a:hover::after{width:100%}
+  @media(max-width:860px){.navlinks{display:none}}
+
+  /* BUTTON */
+  .btn{display:inline-flex;align-items:center;gap:10px;background:var(--accent);color:#fff;font-weight:600;padding:14px 26px;border-radius:999px;transition:transform .2s ease,box-shadow .2s ease}
+  .btn:hover{transform:scale(1.04);box-shadow:0 0 32px rgba(119,101,227,.55)}
+  .btn.ghost{background:transparent;border:1px solid rgba(255,255,255,.2)}
+  .btn.ghost:hover{box-shadow:0 0 24px rgba(255,255,255,.12)}
+
+  /* HERO */
+  .hero{padding:120px 0 110px;border-top:none;position:relative;overflow:hidden}
+  .hero::before{content:"";position:absolute;width:700px;height:700px;right:-200px;top:-250px;background:radial-gradient(circle,rgba(119,101,227,.28),transparent 65%);pointer-events:none}
+  .hero .tag{display:inline-flex;gap:8px;align-items:center;background:var(--accent-soft);color:#c9c1ff;border:1px solid rgba(119,101,227,.35);padding:7px 14px;border-radius:999px;font-size:.82rem;font-weight:500;margin-bottom:28px}
+  .hero p.lead{margin:26px 0 38px}
+  .hero .ctas{display:flex;gap:14px;flex-wrap:wrap}
+
+  /* GRIDS & CARDS */
+  .grid{display:grid;gap:20px;margin-top:48px}
+  .g2{grid-template-columns:repeat(2,1fr)}
+  .g3{grid-template-columns:repeat(3,1fr)}
+  .g4{grid-template-columns:repeat(4,1fr)}
+  @media(max-width:960px){.g3,.g4{grid-template-columns:repeat(2,1fr)}}
+  @media(max-width:640px){.g2,.g3,.g4{grid-template-columns:1fr}}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:28px;transition:transform .25s ease,box-shadow .25s ease,border-color .25s ease}
+  .card:hover{transform:translateY(-6px);box-shadow:0 14px 40px rgba(119,101,227,.18);border-color:rgba(119,101,227,.45)}
+  .card p{color:var(--muted);font-size:.96rem}
+  .icon{width:44px;height:44px;border-radius:10px;background:var(--accent-soft);display:flex;align-items:center;justify-content:center;margin-bottom:18px}
+  .icon svg{width:22px;height:22px;stroke:var(--accent)}
+  .card:has(.icon){display:grid;grid-template-columns:44px 1fr;column-gap:16px;align-items:start}
+  .card:has(.icon)>.icon{grid-row:1/span 4;margin-bottom:0}
+  .card:has(.icon)>*:not(.icon){grid-column:2}
+  .card:has(.icon)>h3{margin-top:9px}
+  .num{font-size:.8rem;font-weight:700;color:var(--accent);letter-spacing:.1em;margin-bottom:12px}
+
+  /* STORY TIMELINE */
+  .story{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:start}
+  @media(max-width:860px){.story{grid-template-columns:1fr}}
+  .timeline{position:relative;padding-left:28px}
+  .timeline::before{content:"";position:absolute;left:6px;top:6px;bottom:6px;width:2px;background:linear-gradient(var(--accent),rgba(119,101,227,.1))}
+  .tl-item{position:relative;margin-bottom:30px}
+  .tl-item::before{content:"";position:absolute;left:-28px;top:6px;width:14px;height:14px;border-radius:50%;background:var(--bg);border:3px solid var(--accent)}
+  .tl-item h4{font-size:1.02rem;margin-bottom:4px}
+  .tl-item p{color:var(--muted);font-size:.95rem}
+  .quote{font-size:clamp(1.5rem,3vw,2.2rem);font-weight:700;line-height:1.25;letter-spacing:-.01em}
+
+  /* LISTS */
+  ul.check{list-style:none;margin-top:14px}
+  ul.check li{position:relative;padding-left:26px;margin-bottom:9px;color:var(--muted);font-size:.95rem}
+  ul.check li::before{content:"";position:absolute;left:0;top:7px;width:14px;height:14px;border-radius:50%;background:var(--accent-soft);border:2px solid var(--accent)}
+
+  .chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
+  .chip{background:var(--card2);border:1px solid var(--line);padding:8px 14px;border-radius:999px;font-size:.88rem;color:#ddd}
+
+  /* PROCESS */
+  .process{display:grid;grid-template-columns:repeat(5,1fr);gap:20px;margin-top:56px;position:relative}
+  .process::before{content:"";position:absolute;top:32px;left:10%;right:10%;height:2px;background:linear-gradient(90deg,var(--accent),rgba(119,101,227,.15))}
+  @media(max-width:960px){.process{grid-template-columns:1fr}.process::before{display:none}}
+  .step{text-align:center;position:relative}
+  .circle{width:64px;height:64px;border-radius:50%;background:var(--bg);border:2px solid var(--accent);display:flex;align-items:center;justify-content:center;margin:0 auto 18px;font-weight:800;font-size:1.25rem;color:#fff;transform:scale(.4);opacity:0;transition:transform .7s cubic-bezier(.34,1.56,.64,1),opacity .4s ease, box-shadow .25s}
+  .step.in .circle{transform:scale(1);opacity:1}
+  .step:hover .circle{box-shadow:0 0 28px rgba(119,101,227,.6)}
+  .step .when{font-size:.78rem;color:var(--accent);font-weight:600;letter-spacing:.06em;text-transform:uppercase}
+  .step h3{margin:6px 0 8px}
+  .step p{color:var(--muted);font-size:.9rem}
+
+  /* PRICING */
+  .setup{display:flex;justify-content:space-between;align-items:center;gap:30px;flex-wrap:wrap;background:linear-gradient(135deg,rgba(119,101,227,.18),rgba(119,101,227,.04));border:1px solid rgba(119,101,227,.4);border-radius:var(--radius);padding:34px;margin-top:48px}
+  .setup .price{font-size:2.4rem;font-weight:800;white-space:nowrap}
+  .setup .price small{display:block;font-size:.85rem;font-weight:500;color:var(--muted);text-align:right}
+  .plans{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:28px;align-items:stretch}
+  @media(max-width:960px){.plans{grid-template-columns:1fr}}
+  .plan{display:flex;flex-direction:column;position:relative}
+  .plan.featured{border:1px solid var(--accent);background:linear-gradient(180deg,rgba(119,101,227,.14),var(--card) 45%);box-shadow:0 0 0 1px rgba(119,101,227,.25)}
+  .badge{position:absolute;top:-13px;left:28px;background:var(--accent);color:#fff;font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:5px 12px;border-radius:999px}
+  .plan .pname{font-size:1.5rem;font-weight:800;margin-bottom:4px}
+  .plan .pfor{color:var(--muted);font-size:.92rem;min-height:48px}
+  .prices{margin:22px 0;padding:18px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .prow{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin:6px 0}
+  .prow .lbl{font-size:.82rem;color:var(--muted)}
+  .prow .val{font-size:1.45rem;font-weight:800}
+  .prow .val small{font-size:.8rem;font-weight:500;color:var(--muted)}
+  .prow.sub .val{font-size:1.15rem;color:#c9c1ff}
+  .feat{list-style:none;flex:1}
+  .feat li{display:flex;justify-content:space-between;gap:14px;padding:10px 0;border-bottom:1px dashed var(--line);font-size:.92rem}
+  .feat li span:first-child{color:var(--muted)}
+  .feat li span:last-child{text-align:right;font-weight:600}
+  .feat li .no{color:rgba(255,255,255,.55);font-weight:400}
+
+  table.tn{width:100%;border-collapse:collapse;margin-top:28px;font-size:.93rem}
+  table.tn th,table.tn td{padding:14px 16px;text-align:left;border-bottom:1px solid var(--line)}
+  table.tn th{color:var(--muted);font-weight:600;font-size:.8rem;text-transform:uppercase;letter-spacing:.08em}
+  table.tn tr.rec td{background:rgba(119,101,227,.1)}
+  .tablewrap{overflow-x:auto;background:var(--card);border:1px solid var(--line);border-radius:var(--radius)}
+
+  .notes{margin-top:40px;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:26px 28px}
+  .notes h4{font-size:.95rem;margin-bottom:8px}
+
+  /* CLOSING */
+  .closing{text-align:center;padding:130px 0;position:relative;overflow:hidden}
+  .closing::before{content:"";position:absolute;width:800px;height:800px;left:50%;top:50%;transform:translate(-50%,-50%);background:radial-gradient(circle,rgba(119,101,227,.22),transparent 60%);pointer-events:none}
+  .closing p.lead{margin:22px auto 36px}
+  footer{border-top:1px solid var(--line);padding:30px 0;color:var(--muted);font-size:.85rem}
+  footer .wrap{display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap}
+  footer svg{height:22px;width:auto;opacity:.8}
+
+  /* REVEAL */
+  .reveal{opacity:0;transform:translateY(26px);transition:opacity .7s ease,transform .7s ease}
+  .reveal.in{opacity:1;transform:none}
+  @media (prefers-reduced-motion:reduce){.reveal,.circle{opacity:1!important;transform:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <symbol id="shift-logo" viewBox="0 0 522 160">
+      <path d="M225.035 71.3908C213.702 71.3908 207.221 66.01 206.324 57.9794L206.283 57.6125H216.27L216.352 57.9794C217.126 61.689 219.939 63.8902 225.075 63.8902C230.008 63.8902 232.984 61.8928 232.984 58.7132V58.6724C232.984 56.0635 231.475 54.596 226.991 53.5769L219.817 51.9871C211.542 50.1527 207.384 46.117 207.384 39.7171V39.6763C207.384 31.7681 214.273 26.428 224.709 26.428C235.47 26.428 241.748 32.3388 242.115 39.7986L242.156 40.247H232.698L232.658 39.9209C232.209 36.4559 229.437 33.9286 224.709 33.9286C220.225 33.9286 217.412 36.0075 217.412 39.1871V39.2279C217.412 41.7145 219.083 43.3451 223.567 44.3642L230.782 45.954C239.71 47.9514 243.175 51.4572 243.175 57.7348V57.7756C243.175 65.9284 235.633 71.3908 225.035 71.3908Z" fill="white"/>
+      <path d="M249.107 70.5348V11.7121H259.257V34.5808H259.502C261.744 29.4037 266.35 26.428 272.832 26.428C282.126 26.428 288.077 33.1948 288.077 43.6304V70.5348H277.927V45.6279C277.927 38.9833 274.584 34.9884 268.755 34.9884C263.007 34.9884 259.257 39.3502 259.257 45.6279V70.5348H249.107Z" fill="white"/>
+      <path d="M300.817 21.1286C297.637 21.1286 295.151 18.6012 295.151 15.5847C295.151 12.4866 297.637 10 300.817 10C303.997 10 306.442 12.4866 306.442 15.5847C306.442 18.6012 303.997 21.1286 300.817 21.1286ZM295.721 70.5348V27.3248H305.872V70.5348H295.721Z" fill="white"/>
+      <path d="M316.492 70.5348V35.1515H310.581V27.3248H316.492V23.2076C316.492 14.7694 320.486 10.856 329.862 10.856C331.86 10.856 334.02 11.0191 335.284 11.2637V18.3567C334.469 18.2344 333.327 18.1528 332.227 18.1528C328.272 18.1528 326.438 19.9872 326.438 23.4929V27.3248H335.121V35.1515H326.642V70.5348H316.492Z" fill="white"/>
+      <path d="M359.032 71.3908C349.983 71.3908 345.702 67.7221 345.702 58.8355V35.1515H339.588V27.3248H345.702V16.3592H356.016V27.3248H364.046V35.1515H356.016V57.9794C356.016 62.2189 357.891 63.5641 361.6 63.5641C362.579 63.5641 363.353 63.4418 364.046 63.4011V71.0239C362.864 71.187 361.071 71.3908 359.032 71.3908Z" fill="white"/>
+      <path d="M250.553 129.269C241.911 129.269 236.082 123.928 236.082 116.224V116.142C236.082 108.479 242.033 103.872 252.51 103.22L263.801 102.527V99.5515C263.801 95.1897 260.948 92.54 255.811 92.54C251.001 92.54 248.066 94.7821 247.414 97.9617L247.333 98.3285H237.916L237.957 97.8394C238.568 90.1757 245.213 84.428 256.178 84.428C266.981 84.428 273.952 90.1349 273.952 98.8177V128.535H263.801V121.89H263.557C261.07 126.415 256.26 129.269 250.553 129.269ZM246.191 115.816C246.191 119.363 249.126 121.523 253.569 121.523C259.399 121.523 263.801 117.651 263.801 112.514V109.253L253.936 109.865C248.922 110.191 246.191 112.351 246.191 115.776V115.816Z" fill="white"/>
+      <path d="M300.796 143.658C289.341 143.658 282.126 138.44 280.903 131.674L280.821 131.307H290.808L290.931 131.633C292.031 134.119 295.496 135.995 300.796 135.995C307.399 135.995 311.027 132.489 311.027 126.986V120.749H310.824C308.418 125.355 303.527 128.29 297.331 128.29C286.487 128.29 279.517 119.974 279.517 106.522V106.481C279.517 92.8254 286.569 84.428 297.494 84.428C303.608 84.428 308.337 87.6891 310.783 92.6623H311.027V85.3248H321.178V127.312C321.178 137.095 313.31 143.658 300.796 143.658ZM300.51 120.463C306.829 120.463 311.068 115.123 311.068 106.726V106.685C311.068 98.3285 306.788 92.9884 300.51 92.9884C293.988 92.9884 289.871 98.247 289.871 106.644V106.685C289.871 115.205 293.988 120.463 300.51 120.463Z" fill="white"/>
+      <path d="M347.655 129.391C334.692 129.391 326.865 120.79 326.865 107.052V107.011C326.865 93.3961 334.814 84.428 347.166 84.428C359.517 84.428 367.181 93.1107 367.181 106.155V109.416H336.934C337.097 116.999 341.255 121.483 347.859 121.483C352.913 121.483 356.215 118.792 357.194 115.898L357.275 115.613H366.773L366.651 116.061C365.306 122.706 358.946 129.391 347.655 129.391ZM347.288 92.377C341.907 92.377 337.871 96.005 337.056 102.65H357.316C356.582 95.8012 352.669 92.377 347.288 92.377Z" fill="white"/>
+      <path d="M372.909 128.535V85.3248H383.059V92.0916H383.263C385.505 87.4445 389.908 84.428 396.471 84.428C405.969 84.428 411.39 90.5426 411.39 100.571V128.535H401.24V102.609C401.24 96.4534 398.387 92.9884 392.598 92.9884C386.769 92.9884 383.059 97.2279 383.059 103.465V128.535H372.909Z" fill="white"/>
+      <path d="M437.786 129.391C424.945 129.391 416.915 120.749 416.915 106.889V106.848C416.915 93.07 425.068 84.428 437.664 84.428C449.037 84.428 456.13 91.6432 456.741 100.285L456.782 100.611H447.202L447.121 100.244C446.265 96.0457 443.167 92.6623 437.786 92.6623C431.386 92.6623 427.269 98.0839 427.269 106.93V106.971C427.269 115.979 431.427 121.197 437.827 121.197C442.963 121.197 446.224 118.14 447.162 113.615L447.243 113.248H456.823L456.782 113.534C456.008 122.542 448.711 129.391 437.786 129.391Z" fill="white"/>
+      <path d="M467.85 142.884C465.894 142.884 463.855 142.639 462.633 142.435V134.69C463.407 134.853 464.589 135.057 466.016 135.057C469.889 135.057 472.049 133.956 473.353 130.328L473.965 128.576L458.434 85.3248H469.522L479.631 119.893H479.917L490.067 85.3248H500.747L485.216 130.002C481.914 139.5 476.859 142.884 467.85 142.884Z" fill="white"/>
+      <path d="M184.602 147.532L123.787 112.326C117.965 108.951 114.379 102.739 114.379 96.0239V27.0856C114.379 12.5605 133.608 7.39852 140.87 19.9795L203.574 128.56C210.68 140.873 196.893 154.649 184.591 147.521L184.602 147.532Z" fill="white"/>
+      <path d="M101.113 27.0856V96.0239C101.113 102.75 97.5264 108.962 91.7052 112.337L30.901 147.532C18.5993 154.649 4.81167 140.884 11.9178 128.571L74.6103 19.9907C81.8728 7.40969 101.113 12.5605 101.113 27.0968V27.0856Z" fill="white"/>
+    </symbol>
+  </defs>
+</svg>
+
+<nav>
+  <div class="wrap">
+    <a href="#top" aria-label="Shift Agency"><svg viewBox="0 0 522 160"><use href="#shift-logo"/></svg></a>
+    <div class="navlinks">
+      <a href="#historia">Historia</a>
+      <a href="#estrategia">Estrategia</a>
+      <a href="#contenido">Contenido</a>
+      <a href="#tienda">Tienda</a>
+      <a href="#etapas">Etapas</a>
+      <a href="#planes">Planes</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero" id="top">
+  <div class="wrap">
+    <span class="tag reveal">Propuesta para La casa de mis viejos</span>
+    <h1 class="reveal">Del hielo<br>al <span class="accent">fuego.</span></h1>
+    <p class="lead reveal">Una historia familiar convertida en marca. Contenido con storytelling, tienda online propia y un plan para crecer paso a paso: primero orgánico, después pauta.</p>
+    <div class="ctas reveal">
+      <a href="#planes" class="btn">Ver planes →</a>
+      <a href="#historia" class="btn ghost">Conocer la propuesta</a>
+    </div>
+  </div>
+</header>
+
+<!-- INTRO / HISTORIA -->
+<section id="historia">
+  <div class="wrap story">
+    <div class="reveal">
+      <span class="eyebrow">La historia</span>
+      <p class="quote">Hay marcas que tienen que inventarse una historia. <span class="accent">Esta ya la tiene.</span></p>
+      <p class="lead" style="margin-top:22px">Ese recorrido, de una familia y de un barrio, es lo que ninguna cadena ni ningún súper puede copiar. Nuestro trabajo es contarlo todos los días y convertirlo en ventas.</p>
+    </div>
+    <div class="timeline reveal">
+      <div class="tl-item"><h4>El abuelo llega de Italia</h4><p>Se instala en el barrio, se casa y arma su vida ahí.</p></div>
+      <div class="tl-item"><h4>El primer almacén vermutería</h4><p>Junto a la abuela abren el primer almacén vermutería de la zona.</p></div>
+      <div class="tl-item"><h4>Una fábrica de hielo</h4><p>El lugar fue fábrica de hielo, hasta que se vendió y volvió a la familia.</p></div>
+      <div class="tl-item"><h4>Hoy: todo para el fuego</h4><p>Carbón de quebracho blanco, leña, hierros, quesos, embutidos y todo lo que hace al ritual del asado.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ESTRATEGIA -->
+<section id="estrategia">
+  <div class="wrap">
+    <span class="eyebrow reveal">Estrategia</span>
+    <h2 class="reveal">El lugar del ritual del asado.</h2>
+    <p class="lead reveal">No somos un corralón de carbón ni una fiambrería. Somos el lugar donde se consigue todo para el asado, con historia familiar, calidad artesanal y buen precio.</p>
+    <div class="grid g3">
+      <div class="card reveal">
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="7" r="4"/><path d="M3 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/><path d="M21 21v-2a4 4 0 0 0-3-3.85"/></svg></div>
+        <h3>Público</h3>
+        <p>Personas de 30 años en adelante que hacen del asado un momento de encuentro con la familia y los amigos.</p>
+      </div>
+      <div class="card reveal">
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+        <h3>Zonas</h3>
+        <p>Villa Pueyrredón, Villa Urquiza, Zona Norte y barrios privados de perfil medio. Dejamos afuera los mercados saturados.</p>
+      </div>
+      <div class="card reveal">
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div>
+        <h3>Canales</h3>
+        <p>Instagram y TikTok para la comunidad y el alcance, Tienda Nube para la venta y WhatsApp para la atención.</p>
+      </div>
+    </div>
+    <div class="chips reveal" style="margin-top:36px">
+      <span class="chip">Carbón de quebracho blanco</span>
+      <span class="chip">Leña embolsada y a granel</span>
+      <span class="chip">Hierros para el asador y ambientación</span>
+      <span class="chip">Aceite de oliva</span>
+      <span class="chip">Provoletas</span>
+      <span class="chip">Quesos y embutidos artesanales</span>
+      <span class="chip">Tablas y cuchillería</span>
+      <span class="chip">Regalería</span>
+    </div>
+  </div>
+</section>
+
+<!-- CONTENIDO -->
+<section id="contenido">
+  <div class="wrap">
+    <span class="eyebrow reveal">Estrategia de contenido</span>
+    <h2 class="reveal">Cuatro pilares para crecer en orgánico.</h2>
+    <p class="lead reveal">Reels y TikToks, carruseles e historias. Cada pieza de video se publica en Instagram y TikTok.</p>
+    <div class="grid g4">
+      <div class="card reveal"><div class="num">01</div><h3>La historia</h3><p>El abuelo, la vermutería, la fábrica de hielo, la familia. El storytelling que nos diferencia.</p></div>
+      <div class="card reveal"><div class="num">02</div><h3>El ritual</h3><p>Cómo prender el fuego, qué leña usar para cada cosa, el armado de una picada, recetas con provoleta.</p></div>
+      <div class="card reveal"><div class="num">03</div><h3>El producto</h3><p>Por qué quebracho blanco, de dónde vienen los quesos y embutidos, los hierros y la regalería.</p></div>
+      <div class="card reveal"><div class="num">04</div><h3>El barrio y la gente</h3><p>Clientes, vecinos, asados reales y la vida del local.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- PRODUCCIÓN + LIVES -->
+<section id="produccion">
+  <div class="wrap">
+    <span class="eyebrow reveal">Producción</span>
+    <h2 class="reveal">Filmamos, editamos y publicamos.</h2>
+    <div class="grid g2">
+      <div class="card reveal">
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 8-6 4 6 4V8z"/><rect x="2" y="6" width="14" height="12" rx="2"/></svg></div>
+        <h3>Jornadas de filmación</h3>
+        <p>Vamos al local y a asados reales para filmar el contenido del mes. Después editamos las piezas para Instagram y TikTok.</p>
+        <ul class="check"><li>Guion y planificación de cada jornada</li><li>Edición vertical con subtítulos</li><li>Publicación y calendario mensual</li></ul>
+      </div>
+      <div class="card reveal">
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="2"/><path d="M16.24 7.76a6 6 0 0 1 0 8.49M7.76 16.24a6 6 0 0 1 0-8.49M19.07 4.93a10 10 0 0 1 0 14.14M4.93 19.07a10 10 0 0 1 0-14.14"/></svg></div>
+        <h3>Lives de TikTok</h3>
+        <p>Los lives los hace el equipo de La casa de mis viejos desde el local: muestran productos, responden preguntas y arman combos en el momento.</p>
+        <ul class="check"><li>Nosotros definimos la estructura y la frecuencia</li><li>Guía práctica para hacerlos</li><li>Según el plan, acompañamos lives en el local</li></ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TIENDA -->
+<section id="tienda">
+  <div class="wrap">
+    <span class="eyebrow reveal">Tienda online</span>
+    <h2 class="reveal">Una tienda propia para vender sin intermediarios.</h2>
+    <p class="lead reveal">Armamos la tienda en Tienda Nube, con catálogo, pagos, envíos y WhatsApp.</p>
+    <div class="grid g3">
+      <div class="card reveal"><h3>Catálogo por categoría</h3><p>Fuego, Hierros, Almacén, Quesos y embutidos, Tablas y cuchillería, Regalería. Más combos para regalar.</p></div>
+      <div class="card reveal"><h3>Pagos, envíos y WhatsApp</h3><p>Medios de pago, envíos o zonas de reparto configurados, y botón de WhatsApp para consultas.</p></div>
+      <div class="card reveal"><h3>"Nuestra casa"</h3><p>Una sección con la historia de la familia, para que quien compra sepa a quién le compra.</p></div>
+    </div>
+    <div class="tablewrap reveal" style="margin-top:36px">
+      <table class="tn">
+        <thead><tr><th>Plan Tienda Nube</th><th>Precio</th><th>Lo más relevante</th></tr></thead>
+        <tbody>
+          <tr><td>Inicial</td><td>Gratis</td><td>Productos ilimitados, envío por Andreani</td></tr>
+          <tr class="rec"><td><strong>Esencial</strong> · recomendado para arrancar</td><td><strong>$27.999/mes</strong></td><td>Todos los medios de pago y más de 30 medios de envío</td></tr>
+          <tr><td>Impulso</td><td>$79.999/mes</td><td>Atención por WhatsApp, acciones masivas sobre productos y ventas</td></tr>
+          <tr><td>Escala</td><td>$244.999/mes</td><td>Estadísticas avanzadas, hasta 3 centros de distribución</td></tr>
+          <tr><td>Evolución</td><td>A consultar</td><td>Especialista dedicado</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="reveal" style="color:var(--muted);font-size:.85rem;margin-top:12px">Precios publicados por Tienda Nube a noviembre de 2026. El plan lo paga el cliente directo a Tienda Nube. Recomendamos pasar a Impulso cuando crezca el volumen de pedidos.</p>
+  </div>
+</section>
+
+<!-- PAUTA -->
+<section id="pauta">
+  <div class="wrap">
+    <span class="eyebrow reveal">Pauta publicitaria</span>
+    <h2 class="reveal">Primero probamos, después invertimos.</h2>
+    <p class="lead reveal">La pauta llega cuando ya sabemos qué contenido funciona. Así cada peso va a las piezas que ya demostraron que venden.</p>
+    <div class="grid g3">
+      <div class="card reveal"><div class="num">ALCANCE</div><h3>Sumar comunidad</h3><p>Campañas segmentadas por zona para que nos conozcan en los barrios donde queremos vender.</p></div>
+      <div class="card reveal"><div class="num">VENTA</div><h3>Llevar a la tienda</h3><p>Campañas que llevan a la tienda o a WhatsApp, con productos y combos.</p></div>
+      <div class="card reveal"><div class="num">REMARKETING</div><h3>Volver a encontrarlos</h3><p>Volvemos a impactar a quienes ya vieron la marca o visitaron la tienda.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ETAPAS -->
+<section id="etapas">
+  <div class="wrap">
+    <span class="eyebrow reveal">Proceso</span>
+    <h2 class="reveal">Cómo vamos a crecer.</h2>
+    <div class="process">
+      <div class="step"><div class="circle">1</div><div class="when">Mes 1</div><h3>Base</h3><p>Seteo de cuentas, tienda online, primera jornada de filmación y lanzamiento.</p></div>
+      <div class="step"><div class="circle">2</div><div class="when">Meses 2–3</div><h3>Orgánico y testeo</h3><p>Publicación constante con los 4 pilares, arranque de los lives y medición.</p></div>
+      <div class="step"><div class="circle">3</div><div class="when">Meses 3–4</div><h3>Optimización</h3><p>Repetimos lo que funciona, ajustamos el catálogo y armamos combos y fechas especiales.</p></div>
+      <div class="step"><div class="circle">4</div><div class="when">Desde el mes 4</div><h3>Pauta</h3><p>Campañas pagas sobre el contenido que ya funcionó, segmentadas por zona.</p></div>
+      <div class="step"><div class="circle">5</div><div class="when">Después</div><h3>Escala</h3><p>Más inversión, remarketing, nuevas zonas de envío y regalería empresarial.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- PLANES -->
+<section id="planes">
+  <div class="wrap">
+    <span class="eyebrow reveal">Inversión</span>
+    <h2 class="reveal">Tres planes, todo incluido.</h2>
+    <p class="lead reveal">Cada plan es una etapa de crecimiento. Contratos de 6 meses, renovables.</p>
+
+    <div class="setup reveal">
+      <div>
+        <span class="eyebrow" style="margin-bottom:8px">Pago único · igual para los tres planes</span>
+        <h3 style="font-size:1.5rem">Seteo general</h3>
+        <p style="color:var(--muted);max-width:620px">Tienda en Tienda Nube (diseño, catálogo, medios de pago, envíos y WhatsApp), fotos de producto y seteo de Instagram, TikTok, Facebook, WhatsApp Business y Meta.</p>
+      </div>
+      <div class="price">$1.000.000<small>pago único</small></div>
+    </div>
+
+    <div class="plans">
+      <div class="card plan reveal">
+        <div class="pname">Encendido</div>
+        <div class="pfor">Salir a la cancha con la marca bien puesta.</div>
+        <div class="prices">
+          <div class="prow"><span class="lbl">Mensual</span><span class="val">$800.000 <small>/mes</small></span></div>
+          <div class="prow sub"><span class="lbl">Sin pauta</span><span class="val">&nbsp;</span></div>
+        </div>
+        <ul class="feat">
+          <li><span>Jornadas de filmación</span><span>1 por mes</span></li>
+          <li><span>Reels/TikToks</span><span>8 por mes</span></li>
+          <li><span>Carruseles</span><span>4 por mes</span></li>
+          <li><span>Historias</span><span>Semanales</span></li>
+          <li><span>Lives de TikTok</span><span>Guía para hacerlos</span></li>
+          <li><span>Pauta</span><span class="no">No incluida</span></li>
+          <li><span>Reportes</span><span>Mensual</span></li>
+        </ul>
+      </div>
+
+      <div class="card plan featured reveal">
+        <span class="badge">Recomendado</span>
+        <div class="pname">Brasa</div>
+        <div class="pfor">Crecer en orgánico y pasar a pauta con lo que ya funcionó.</div>
+        <div class="prices">
+          <div class="prow"><span class="lbl">Meses 1 a 3</span><span class="val">$1.100.000 <small>/mes</small></span></div>
+          <div class="prow sub"><span class="lbl">Desde el mes 4, con pauta</span><span class="val">$1.600.000 <small>/mes</small></span></div>
+        </div>
+        <ul class="feat">
+          <li><span>Jornadas de filmación</span><span>2 por mes</span></li>
+          <li><span>Reels/TikToks</span><span>12 por mes</span></li>
+          <li><span>Carruseles</span><span>8 por mes</span></li>
+          <li><span>Historias</span><span>3 por semana</span></li>
+          <li><span>Lives de TikTok</span><span>Planificación + 1 acompañado/mes</span></li>
+          <li><span>Pauta</span><span>Gestión desde el mes 4</span></li>
+          <li><span>Reportes</span><span>Mensual + reunión</span></li>
+        </ul>
+      </div>
+
+      <div class="card plan reveal">
+        <div class="pname">Fuego Vivo</div>
+        <div class="pfor">Crecer rápido, con orgánico y pauta desde el principio.</div>
+        <div class="prices">
+          <div class="prow"><span class="lbl">Mes 1</span><span class="val">$2.000.000 <small>/mes</small></span></div>
+          <div class="prow sub"><span class="lbl">Desde el mes 2, con pauta</span><span class="val">$2.500.000 <small>/mes</small></span></div>
+        </div>
+        <ul class="feat">
+          <li><span>Jornadas de filmación</span><span>4 por mes</span></li>
+          <li><span>Reels/TikToks</span><span>20 por mes</span></li>
+          <li><span>Carruseles</span><span>12 por mes</span></li>
+          <li><span>Historias</span><span>Diarias</span></li>
+          <li><span>Lives de TikTok</span><span>Planificación + 2 acompañados/mes</span></li>
+          <li><span>Pauta</span><span>Desde el mes 2 + testeo + remarketing</span></li>
+          <li><span>Reportes</span><span>Quincenal + reunión</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="notes reveal">
+      <h4>Aclaraciones</h4>
+      <ul class="check">
+        <li>Cada reel/TikTok se publica en Instagram y TikTok: la cantidad es por pieza, no por red.</li>
+        <li>La inversión en pauta va aparte del honorario de Shift y la paga el cliente directo a Meta o TikTok.</li>
+        <li>El plan mensual de Tienda Nube y las comisiones de los medios de pago los paga el cliente directo a cada plataforma.</li>
+        <li>La gestión de comunidad (responder comentarios y mensajes) y los lives de TikTok quedan a cargo del cliente.</li>
+        <li>Contratos de 6 meses, renovables. Los valores pueden actualizarse en cada renovación.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- CIERRE -->
+<section class="closing">
+  <div class="wrap" style="position:relative">
+    <span class="eyebrow reveal">Próximo paso</span>
+    <h2 class="reveal" style="font-size:clamp(2.2rem,5vw,3.8rem)">La historia ya está escrita.<br><span class="accent">Ahora hay que contarla.</span></h2>
+    <p class="lead reveal">El abuelo, el almacén y la fábrica de hielo que hoy vende fuego. Hagamos que la conozcan en cada barrio adonde queremos llegar.</p>
+    <a href="#planes" class="btn reveal">Elegir un plan →</a>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <svg viewBox="0 0 522 160"><use href="#shift-logo"/></svg>
+    <span>Propuesta preparada por Shift Agency para La casa de mis viejos · Noviembre 2026</span>
+  </div>
+</footer>
+
+<script>
+  (function(){
+    var els=document.querySelectorAll('.reveal,.step');
+    if(!('IntersectionObserver' in window)){els.forEach(function(e){e.classList.add('in')});return;}
+    var io=new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if(!en.isIntersecting) return;
+        var el=en.target, sibs=Array.prototype.filter.call(el.parentElement.children,function(c){return c.classList.contains('reveal')||c.classList.contains('step')});
+        var i=sibs.indexOf(el); el.style.transitionDelay=(Math.max(i,0)*0.09)+'s';
+        if(el.classList.contains('step')) el.querySelector('.circle').style.transitionDelay=(i*0.12)+'s';
+        el.classList.add('in'); io.unobserve(el);
+      });
+    },{threshold:.12,rootMargin:'0px 0px -40px 0px'});
+    els.forEach(function(e){io.observe(e)});
+  })();
+</script>
+</body>
+</html>
