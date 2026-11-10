@@ -19,7 +19,7 @@
   a{color:inherit;text-decoration:none}
   .wrap{max-width:1160px;margin:0 auto;padding:0 24px}
   section{padding:110px 0;border-top:1px solid var(--line)}
-  .eyebrow{display:inline-block;font-size:.78rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:16px}
+  .eyebrow{display:inline-block;font-size:.78rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:#a597f2;margin-bottom:16px}
   h1{font-size:clamp(2.4rem,6vw,4.6rem);line-height:1.05;font-weight:800;letter-spacing:-.03em}
   h2{font-size:clamp(1.9rem,4vw,3rem);line-height:1.1;font-weight:700;letter-spacing:-.02em;margin-bottom:20px}
   h3{font-size:1.2rem;font-weight:700;margin-bottom:10px}
@@ -66,7 +66,7 @@
   .card:has(.icon)>.icon{grid-row:1/span 4;margin-bottom:0}
   .card:has(.icon)>*:not(.icon){grid-column:2}
   .card:has(.icon)>h3{margin-top:9px}
-  .num{font-size:.8rem;font-weight:700;color:var(--accent);letter-spacing:.1em;margin-bottom:12px}
+  .num{font-size:.8rem;font-weight:700;color:#a597f2;letter-spacing:.1em;margin-bottom:12px}
 
   /* STORY TIMELINE */
   .story{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:start}
@@ -95,7 +95,7 @@
   .circle{width:64px;height:64px;border-radius:50%;background:var(--bg);border:2px solid var(--accent);display:flex;align-items:center;justify-content:center;margin:0 auto 18px;font-weight:800;font-size:1.25rem;color:#fff;transform:scale(.4);opacity:0;transition:transform .7s cubic-bezier(.34,1.56,.64,1),opacity .4s ease, box-shadow .25s}
   .step.in .circle{transform:scale(1);opacity:1}
   .step:hover .circle{box-shadow:0 0 28px rgba(119,101,227,.6)}
-  .step .when{font-size:.78rem;color:var(--accent);font-weight:600;letter-spacing:.06em;text-transform:uppercase}
+  .step .when{font-size:.78rem;color:#a597f2;font-weight:600;letter-spacing:.06em;text-transform:uppercase}
   .step h3{margin:6px 0 8px}
   .step p{color:var(--muted);font-size:.9rem}
 
@@ -411,6 +411,15 @@
           <li><span>Reportes</span><span>Quincenal + reunión</span></li>
         </ul>
       </div>
+    </div>
+
+    <div class="setup reveal" style="margin-top:28px;background:var(--card);border-color:var(--line)">
+      <div>
+        <span class="eyebrow" style="margin-bottom:8px">Adicional · para cualquier plan</span>
+        <h3 style="font-size:1.5rem">Jornada de filmación extra</h3>
+        <p style="color:var(--muted);max-width:620px">Para sumar una jornada más a las que ya incluye el plan: lanzamientos, fechas especiales, eventos en el local o producción de producto.</p>
+      </div>
+      <div class="price">$200.000<small>por jornada</small></div>
     </div>
 
     <div class="notes reveal">
